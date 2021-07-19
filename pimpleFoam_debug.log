@@ -1,0 +1,199 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2012                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : _e91649cfd8-20210420 OPENFOAM=2012 patch=210414
+Arch   : "LSB;label=32;scalar=64"
+Exec   : pimpleFoam -case openfoam
+Date   : Jul 19 2021
+Time   : 13:37:25
+Host   : scw-a5ymyf
+PID    : 12201
+I/O    : uncollated
+Case   : /home/julian/software/mbdyn-adapter/210719/discourse/overset_withPreCICE/openfoam
+nProcs : 1
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 5, maxFileModificationPolls 20)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create mesh for time = 0
+
+Selecting dynamicFvMesh dynamicOversetFvMesh
+Selecting motion solver: multiSolidBodyMotionSolver
+Applying solid body motion to entire mesh
+Selecting solid-body motion function multiMotion
+Selecting solid-body motion function rotatingMotion
+Constructed SBMF 0 : rotatingMotion of type rotatingMotion
+Selecting solid-body motion function oscillatingRotatingMotion
+Constructed SBMF 1 : pitchingMotion of type oscillatingRotatingMotion
+Applying solid body motion multiMotion to 6952 points of cellZone c1
+
+PIMPLE: max iterations = 30
+    field "(U|k|omega)"	: relTol 0, tolerance 0.01
+    field p	: relTol 0, tolerance 0.01
+
+Reading field p
+
+Reading field U
+
+Reading/calculating face flux field phi
+
+Selecting incompressible transport model Newtonian
+Selecting turbulence model type RAS
+Selecting RAS turbulence model kOmegaSST
+Selecting patchDistMethod Poisson
+cellVolumeWeight : detected 2 mesh regions
+
+    zone:0 nCells:55842
+    zone:1 nCells:3318
+Marking patch-cells on zone 0
+Marking patch-cells on zone 1
+
+After patch analysis : nCells : 59160
+    other  : 58728
+    patch  : 274
+    overset: 158
+
+Creating mesh-to-mesh addressing for region0 and region0 regions using cellVolumeWeight
+    Overlap volume: 0.002061141778
+cellVolumeWeight : detected 4 mesh regions after overset
+
+Front : fraction:1 size:204
+Overset analysis : nCells : 59160
+    calculated   : 58900
+    interpolated : 200
+    hole         : 60
+
+DILUPBiCGStab:  Solving for yPsi, Initial residual = 1, Final residual = 6.656133747e-09, No Iterations 288
+RAS
+{
+    RASModel        kOmegaSST;
+    turbulence      on;
+    printCoeffs     on;
+    alphaK1         0.85;
+    alphaK2         1;
+    alphaOmega1     0.5;
+    alphaOmega2     0.856;
+    gamma1          0.5555555556;
+    gamma2          0.44;
+    beta1           0.075;
+    beta2           0.0828;
+    betaStar        0.09;
+    a1              0.31;
+    b1              1;
+    c1              10;
+    F3              false;
+    decayControl    false;
+    kInf            0;
+    omegaInf        0;
+}
+
+No MRF models present
+
+No finite volume options present
+Constructing face velocity Uf
+
+Courant Number mean: 0 max: 0
+
+Starting time loop
+
+wallShearStress wallShearStress:
+    processing all wall patches
+
+---[preciceAdapter] Loaded the OpenFOAM-preCICE adapter - unreleased version.
+---[preciceAdapter] Reading preciceDict...
+---[preciceAdapter] [DEBUG]   precice-config-file : precice-config.xml
+---[preciceAdapter] [DEBUG]   participant name    : Fluid
+---[preciceAdapter] [DEBUG]   modules requested   : 
+---[preciceAdapter] [DEBUG]   - FSI
+
+---[preciceAdapter] [DEBUG]   interfaces : 
+---[preciceAdapter] [DEBUG]   - mesh         : Fluid-Mesh
+---[preciceAdapter] [DEBUG]     locations    : faceNodes
+---[preciceAdapter] [DEBUG]     connectivity : 0
+---[preciceAdapter] [DEBUG]     patches      : 
+---[preciceAdapter] [DEBUG]       - inlet
+---[preciceAdapter] [DEBUG]     writeData    : 
+---[preciceAdapter] [DEBUG]       - Force_Data
+---[preciceAdapter] [DEBUG]     readData     : 
+---[preciceAdapter] [DEBUG]       - Displacement_Data
+---[preciceAdapter] [DEBUG] Configuring the FSI module...
+---[preciceAdapter] [DEBUG]     user-defined solver type : 
+---[preciceAdapter] [DEBUG]     pointDisplacement field name : pointDisplacement
+---[preciceAdapter] [DEBUG]     cellDisplacement field name : cellDisplacement
+---[preciceAdapter] [DEBUG] Determining the solver type for the FSI module... (override by setting solverType to one of {compressible, incompressible})
+---[preciceAdapter] [DEBUG] Automatically determined solver type : incompressible
+---[preciceAdapter] [DEBUG] Checking the timestep type (fixed vs adjustable)...
+---[preciceAdapter] [DEBUG]   Timestep type: adjustable.
+---[preciceAdapter] [DEBUG] Creating the preCICE solver interface...
+---[preciceAdapter] [DEBUG]   Number of processes: 1
+---[preciceAdapter] [DEBUG]   MPI rank: 0
+---[precice] [36mWARNING: [0m Setting the z-axis to dead on a 2-dimensional problem has no effect.
+---[precice] [36mWARNING: [0m Setting the z-axis to dead on a 2-dimensional problem has no effect.
+---[precice] [0m This is preCICE version 2.2.0
+---[precice] [0m Revision info: v2.2.0
+---[precice] [0m Configuration: Release (Debug and Trace log unavailable)
+---[precice] [0m Configuring preCICE with configuration "precice-config.xml"
+---[precice] [0m I am participant "Fluid"
+---[preciceAdapter] [DEBUG]   preCICE solver interface was created.
+---[preciceAdapter] [DEBUG] Creating interfaces...
+---[preciceAdapter] [DEBUG] Number of face nodes: 62
+---[preciceAdapter] [DEBUG] Interface created on mesh Fluid-Mesh
+---[preciceAdapter] [DEBUG] Adding coupling data writers...
+---[preciceAdapter] [DEBUG] Added writer: Force.
+---[preciceAdapter] [DEBUG] Adding coupling data readers...
+
+
+--> FOAM FATAL ERROR: (openfoam-2012 patch=210414)
+
+    request for pointVectorField pointDisplacement from objectRegistry region0 failed
+    available objects of type pointVectorField are
+0()
+
+    From const Type& Foam::objectRegistry::lookupObject(const Foam::word&, bool) const [with Type = Foam::GeometricField<Foam::Vector<double>, Foam::pointPatchField, Foam::pointMesh>]
+    in file /usr/src/packages/BUILD/src/OpenFOAM/lnInclude/objectRegistryTemplates.C at line 463.
+
+FOAM aborting
+
+#0  Foam::error::printStack(Foam::Ostream&) at ??:?
+#1  Foam::error::exitOrAbort(int, bool) at ??:?
+#2  Foam::GeometricField<Foam::Vector<double>, Foam::pointPatchField, Foam::pointMesh> const& Foam::objectRegistry::lookupObject<Foam::GeometricField<Foam::Vector<double>, Foam::pointPatchField, Foam::pointMesh> >(Foam::word const&, bool) const at ??:?
+#3  preciceAdapter::FSI::Displacement::Displacement(Foam::fvMesh const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >) at ??:?
+#4  preciceAdapter::FSI::FluidStructureInteraction::addReaders(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, preciceAdapter::Interface*) at ??:?
+#5  preciceAdapter::Adapter::configure() at ??:?
+#6  Foam::functionObjects::preciceAdapterFunctionObject::read(Foam::dictionary const&) at ??:?
+#7  Foam::functionObjects::preciceAdapterFunctionObject::preciceAdapterFunctionObject(Foam::word const&, Foam::Time const&, Foam::dictionary const&) at ??:?
+#8  Foam::functionObject::adddictionaryConstructorToTable<Foam::functionObjects::preciceAdapterFunctionObject>::New(Foam::word const&, Foam::Time const&, Foam::dictionary const&) at ??:?
+#9  Foam::functionObject::New(Foam::word const&, Foam::Time const&, Foam::dictionary const&) at ??:?
+#10  Foam::functionObjectList::read() at ??:?
+#11  Foam::Time::run() const at ??:?
+#12  ? in /usr/lib/openfoam/openfoam2012/platforms/linux64GccDPInt32Opt/bin/pimpleFoam
+#13  __libc_start_main in /lib/x86_64-linux-gnu/libc.so.6
+#14  ? in /usr/lib/openfoam/openfoam2012/platforms/linux64GccDPInt32Opt/bin/pimpleFoam
+[scw-a5ymyf:12201] *** Process received signal ***
+[scw-a5ymyf:12201] Signal: Aborted (6)
+[scw-a5ymyf:12201] Signal code:  (-6)
+[scw-a5ymyf:12201] [ 0] /lib/x86_64-linux-gnu/libpthread.so.0(+0x153c0)[0x7f63cc6ae3c0]
+[scw-a5ymyf:12201] [ 1] /lib/x86_64-linux-gnu/libc.so.6(gsignal+0xcb)[0x7f63cc4ed18b]
+[scw-a5ymyf:12201] [ 2] /lib/x86_64-linux-gnu/libc.so.6(abort+0x12b)[0x7f63cc4cc859]
+[scw-a5ymyf:12201] [ 3] /usr/lib/openfoam/openfoam2012/platforms/linux64GccDPInt32Opt/lib/libOpenFOAM.so(_ZN4Foam5error11exitOrAbortEib+0x2b7)[0x7f63ccdecc87]
+[scw-a5ymyf:12201] [ 4] /usr/lib/openfoam/openfoam2012/platforms/linux64GccDPInt32Opt/lib/libfvMotionSolvers.so(_ZNK4Foam14objectRegistry12lookupObjectINS_14GeometricFieldINS_6VectorIdEENS_15pointPatchFieldENS_9pointMeshEEEEERKT_RKNS_4wordEb+0x13a)[0x7f63c969074a]
+[scw-a5ymyf:12201] [ 5] /home/julian/OpenFOAM/julian-v2012/platforms/linux64GccDPInt32Opt/lib/libpreciceAdapterFunctionObject_debug.so(_ZN14preciceAdapter3FSI12DisplacementC1ERKN4Foam6fvMeshENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESB_+0xaf)[0x7f63c9061e6f]
+[scw-a5ymyf:12201] [ 6] /home/julian/OpenFOAM/julian-v2012/platforms/linux64GccDPInt32Opt/lib/libpreciceAdapterFunctionObject_debug.so(_ZN14preciceAdapter3FSI25FluidStructureInteraction10addReadersENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS_9InterfaceE+0x2fc)[0x7f63c901e11c]
+[scw-a5ymyf:12201] [ 7] /home/julian/OpenFOAM/julian-v2012/platforms/linux64GccDPInt32Opt/lib/libpreciceAdapterFunctionObject_debug.so(_ZN14preciceAdapter7Adapter9configureEv+0x11cb)[0x7f63c907a8fb]
+[scw-a5ymyf:12201] [ 8] /home/julian/OpenFOAM/julian-v2012/platforms/linux64GccDPInt32Opt/lib/libpreciceAdapterFunctionObject_debug.so(_ZN4Foam15functionObjects28preciceAdapterFunctionObject4readERKNS_10dictionaryE+0x11)[0x7f63c90bbc91]
+[scw-a5ymyf:12201] [ 9] /home/julian/OpenFOAM/julian-v2012/platforms/linux64GccDPInt32Opt/lib/libpreciceAdapterFunctionObject_debug.so(_ZN4Foam15functionObjects28preciceAdapterFunctionObjectC2ERKNS_4wordERKNS_4TimeERKNS_10dictionaryE+0x4d)[0x7f63c90bbddd]
+[scw-a5ymyf:12201] [10] /home/julian/OpenFOAM/julian-v2012/platforms/linux64GccDPInt32Opt/lib/libpreciceAdapterFunctionObject_debug.so(_ZN4Foam14functionObject31adddictionaryConstructorToTableINS_15functionObjects28preciceAdapterFunctionObjectEE3NewERKNS_4wordERKNS_4TimeERKNS_10dictionaryE+0x37)[0x7f63c90bc2d7]
+[scw-a5ymyf:12201] [11] /usr/lib/openfoam/openfoam2012/platforms/linux64GccDPInt32Opt/lib/libOpenFOAM.so(_ZN4Foam14functionObject3NewERKNS_4wordERKNS_4TimeERKNS_10dictionaryE+0x40e)[0x7f63cd02ef5e]
+[scw-a5ymyf:12201] [12] /usr/lib/openfoam/openfoam2012/platforms/linux64GccDPInt32Opt/lib/libOpenFOAM.so(_ZN4Foam18functionObjectList4readEv+0x9ce)[0x7f63cd032bde]
+[scw-a5ymyf:12201] [13] /usr/lib/openfoam/openfoam2012/platforms/linux64GccDPInt32Opt/lib/libOpenFOAM.so(_ZNK4Foam4Time3runEv+0x2e7)[0x7f63cd04eb67]
+[scw-a5ymyf:12201] [14] pimpleFoam(+0x2d9b8)[0x5573c85459b8]
+[scw-a5ymyf:12201] [15] /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf3)[0x7f63cc4ce0b3]
+[scw-a5ymyf:12201] [16] pimpleFoam(+0x3160e)[0x5573c854960e]
+[scw-a5ymyf:12201] *** End of error message ***
