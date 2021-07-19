@@ -1,0 +1,168 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1912                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+
+    cellDisplacement
+    {
+        solver          PCG;
+        preconditioner  DIC;
+
+        tolerance       1e-06;
+        relTol          0;
+        maxIter         100;
+    }
+
+
+    p
+    {
+    solver          PBiCGStab;
+    	preconditioner  DILU;
+    		tolerance       5e-3;
+    			relTol          0;
+    				minIter 1;
+    }
+
+	pFinal
+    {
+    	$p;
+    		tolerance 5e-4;
+    }
+    
+    "(pcorr|pcorrFinal)"
+    {
+        solver          GAMG;
+        tolerance       1e-2;
+        relTol          0;
+        //smoother        DICGaussSeidel;
+        smoother        GaussSeidel;
+        nCellsInCoarsestLevel 256;
+
+        agglomerator    faceAreaPair;
+        minIter 1;
+        maxIter 5;
+    }
+
+    yPsi
+    {
+        solver          PBiCGStab;
+        preconditioner  DILU;
+        tolerance       1e-5;
+        relTol          0.0;
+    }
+    
+
+    "(U|omega|k)"
+    {
+    	solver          PBiCGStab;
+    		preconditioner  DILU;
+	    		tolerance       1e-6;
+	    			relTol          0;
+	    				minIter     1;
+    }
+
+    "(U|omega|k)Final"
+    {
+    $U;
+    	tolerance       1e-9;
+    		relTol          0;
+    }
+
+}
+
+PIMPLE
+{
+
+    ddtCorr             true;
+    correctPhi          false; 
+    oversetAdjustPhi    true; // Adjust the balance of fluxes on the faces between interpolated and calculated to obey continuity. 
+
+    checkMeshCourantNo  yes;
+    momentumPredictor   true;
+    nOuterCorrectors    30; // was 30 b4 testing overSet
+    nCorrectors         3;
+    nNonOrthogonalCorrectors 3;
+    turbOnFinalIterOnly false;
+
+
+    residualControl
+    {
+   /*
+    	"(U|k|omega|p)"		// Schemes von Gabriel Axtmann, lösen U und Turbulenz nicht so genau; zu verwendn bis wake stabil ist (U70), da schneller konvergieren
+    	{
+    		relTol          0;
+    		tolerance       1e-2;
+    	}
+    */
+    
+    
+
+	
+        "(U|k|omega)"		//urspruengliche residual Control von Louis -> fuer letzte Rotation zu waehlen, da U und Turbulenzwerte mit besserer Genauigkeit errechnet werden, allerdings nur mit Co=10
+        
+        {
+            relTol          0;
+            tolerance       1e-4;
+        }
+        
+        p
+        {
+            relTol 0;
+            tolerance 1e-3;
+        }
+    }
+}
+
+relaxationFactors
+{
+	fields
+		{
+    			p               0.3;
+        			pFinal          1.0;
+  					}
+		equations
+    			{
+    				"(U)"   0.7;
+    					"(U)Final" 1.0;
+						"(p)"   0.3;
+							"(p)Final"   1.0;
+								"(k|omega)"   0.3;
+									"(k|omega)Final"   1.0;
+										}
+}
+
+
+/*
+relaxationFactors
+{
+        fields
+                {
+                            p               0.7;
+                                    pFinal          1.0;
+                                        }
+            equations
+                    {
+                                "(U)"   0.7;
+                                        "(U)Final" 1.0;
+                                                "(k|omega)"   0.7;
+                                                        "(k|omega)Final"   1.0;
+                                                            }
+}
+*/
+
+// ************************************************************************* //
+

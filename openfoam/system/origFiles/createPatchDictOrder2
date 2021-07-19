@@ -1,0 +1,86 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2006                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      createPatchDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Do a synchronisation of coupled points after creation of any patches.
+// Note: this does not work with points that are on multiple coupled patches
+//       with transformations (i.e. cyclics).
+pointSync false;
+
+// Patches to create.
+patches
+(
+
+/// and now switch back to original names:
+    {
+        name topAndBottom;
+        patchInfo
+        {
+            type patch;
+        }
+        constructFrom patches;
+        patches (topAndBottomN);
+    }
+    {
+        name inlet;
+        patchInfo
+        {
+            type patch;
+        }
+        constructFrom patches;
+        patches (inletN);
+    }
+    {
+        name outlet;
+        patchInfo
+        {
+            type patch;
+        }
+        constructFrom patches;
+        patches (outletN);
+    }
+    {
+        name frontAndBack;
+        patchInfo
+        {
+            type empty;
+        }
+        constructFrom patches;
+        patches (frontAndBackN);
+    }
+    {
+        name airfoilUp;
+        patchInfo
+        {
+            type wall;
+        }
+        constructFrom patches;
+        patches (airfoilUpN);
+    }
+    {
+        name airfoilDown;
+        patchInfo
+        {
+            type wall;
+        }
+        constructFrom patches;
+        patches (airfoilDownN);
+    }
+
+
+);
+
+// ************************************************************************* //

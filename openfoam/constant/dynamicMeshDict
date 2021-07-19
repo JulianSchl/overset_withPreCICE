@@ -1,0 +1,72 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2006                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      dynamicMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dynamicFvMesh   dynamicOversetFvMesh;
+
+motionSolverLibs (fvMotionSolvers);
+
+//solver          displacementLaplacian;
+
+solver          multiSolidBodyMotionSolver;
+
+
+c1
+{
+	solidBodyMotionFunction multiMotion;
+	rotatingMotion
+	{
+		solidBodyMotionFunction  rotatingMotion;
+		rotatingMotionCoeffs
+		{
+			origin        (0 0 0);
+			axis          (0 0 1);
+			omega         20.74;
+		}
+	}
+	pitchingMotion  /// this instruction MUST come after rotor motion, otherwise the center of rotation is wrong
+	{
+		solidBodyMotionFunction  oscillatingRotatingMotion;
+		origin        (0.5 0 0);
+		amplitude     (0 0 -25);  // degs
+		omega  20.74;
+	}
+}
+/*
+c2
+{
+	solidBodyMotionFunction multiMotion;
+	rotatingMotion
+	{
+		solidBodyMotionFunction  rotatingMotion;
+		rotatingMotionCoeffs
+		{
+			origin        (0 0 0);
+			axis          (0 0 1);
+			omega        20.74;
+		}
+	}
+	pitchingMotion  /// this instruction MUST come after rotor motion, otherwise the center of rotation is wrong
+	{
+		solidBodyMotionFunction  oscillatingRotatingMotion;
+		origin        (-0.5 0 0);
+		amplitude     (0 0 25);  // degs
+		omega 20.74;
+	}
+}
+*/
+
+
+// ************************************************************************* //

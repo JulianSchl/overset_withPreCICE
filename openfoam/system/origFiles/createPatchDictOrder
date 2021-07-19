@@ -1,0 +1,84 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2006                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      createPatchDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Do a synchronisation of coupled points after creation of any patches.
+// Note: this does not work with points that are on multiple coupled patches
+//       with transformations (i.e. cyclics).
+pointSync false;
+
+// Patches to create.
+patches
+(
+    {
+        name topAndBottomN;
+        patchInfo
+        {
+            type patch;
+        }
+        constructFrom patches;
+        patches (topAndBottom);
+    }
+    {
+        name inletN;
+        patchInfo
+        {
+            type patch;
+        }
+        constructFrom patches;
+        patches (inlet);
+    }
+    {
+        name outletN;
+        patchInfo
+        {
+            type patch;
+        }
+        constructFrom patches;
+        patches (outlet);
+    }
+    {
+        name frontAndBackN;
+        patchInfo
+        {
+            type empty;
+        }
+        constructFrom patches;
+        patches (frontAndBack);
+    }
+    {
+        name airfoilUpN;
+        patchInfo
+        {
+            type wall;
+        }
+        constructFrom patches;
+        patches (airfoilUp);
+    }
+    {
+        name airfoilDownN;
+        patchInfo
+        {
+            type wall;
+        }
+        constructFrom patches;
+        patches (airfoilDown);
+    }
+
+
+);
+
+// ************************************************************************* //
